@@ -2,27 +2,26 @@
   <div>
     <div class="row">
       <div>
-        <menuBar>
-        </menuBar>
+        <menu-bar></menu-bar>
         <monaco-editor></monaco-editor>
       </div>
-      <inoutbox></inoutbox>
+      <in-out-box></in-out-box>
     </div>
   </div>
 
 </template>
 
 <script>
-  import inoutbox from './editor/InOutBox.vue'
+  import inOutBox from './editor/InOutBox.vue'
   import menuBar from './editor/MenuBar.vue'
-  import MonacoEditor from './editor/MonacoEditor.vue'
+  import monacoEditor from './editor/MonacoEditor.vue'
 
   export default {
     name: 'editor',
     components: {
+      inOutBox,
       menuBar,
-      MonacoEditor,
-      inoutbox,
+      monacoEditor,
     },
     created () {
       this.$store.dispatch('loadDataFromServer')
