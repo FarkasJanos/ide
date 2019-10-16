@@ -6,8 +6,8 @@
        <i class="fa fa-code" aria-hidden="true"></i>
     </button>
     <ul class="dropdown-menu">
-        <li v-for="option in options" @click="select(option)"><span href="#">{{option}}</span></li>
-    </ul>  
+        <li v-for="(option, index) in options" @click="select(option)" :key="index"><span>{{option}}</span></li>
+    </ul>
   </div>
 </template>
 
@@ -32,16 +32,16 @@
     },
     methods: {
       select(selected) {
-          this.$store.commit('changeLanguage', selected) 
+          this.$store.commit('changeLanguage', selected)
       },
       open() {
-        this.isOpen = !this.isOpen 
+        this.isOpen = !this.isOpen
       },
       close () {
-        setTimeout(() => { this.isOpen=false },250 )    
+        setTimeout(() => { this.isOpen=false },250 )
       }
     }
-  } 
+  }
 </script>
 
 <style scoped>
