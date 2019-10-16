@@ -10,7 +10,7 @@
               <span v-if="loading">Running</span>
               <span v-else> Run </span>
             </button>
-            <language :options=languages :selected=this.$store.state.language></language>
+            <language :options="languages" :selected="this.$store.state.language"></language>
 
             <button class="btn btn-sm btn-menu">
             <router-link class="decoration-none" to="/" target="_blank" active-class="" exact-active-class="">
@@ -18,7 +18,7 @@
             </router-link>
             </button>
 
-            <button type="button" id="custInp" class="btn btn-sm btn-menu" @click="InOutBoxToggle()">
+            <button type="button" id="custInp" class="btn btn-sm btn-menu" @click="InOutBoxToggle">
               Input <i class="fa fa-keyboard-o" aria-hidden="true"></i>
             </button>
             <button type="button" id="save" class="btn btn-sm btn-menu" @click="saveToServer()">Save <i
@@ -28,7 +28,7 @@
               <i class="fa fa-download" aria-hidden="true"></i>
             </button>
             <input type="file" ref="fileUpload" style="display:none" @change="uploadCode">
-            <button type="button" id="uploadFile" class=" btn btn-sm btn-menu" @click="selectFile">
+            <button type="button" id="uploadFile" class="btn btn-sm btn-menu" @click="selectFile">
               Upload <span class="fa fa-folder-open" aria-hidden="true"></span>
             </button>
             <input type="file" id="upload" style="display:none;">
@@ -47,19 +47,19 @@
           </div>
         </div>
         <div class="panel-heading second-row">
-          Title: <input class="black" type="text" placeholder="Untitled" :value=this.$store.state.codeTitle @change=changeTitle>
+          Title: <input class="black" type="text" placeholder="Untitled" :value="this.$store.state.codeTitle" @change="changeTitle">
         </div>
       </div>
       <settings v-show="this.$store.state.showSettings"></settings>
     </div>
-    
+
     <modal name="download-modal" transition="pop-out" :width="680" :pivot-y="0.2" :height="auto">
       <div class="download-modal-title flex-center">
         confirm file name
       </div>
       <div class="download-modal-content flex-center">
         <span>File Name:</span>
-        <input v-on:keyup.enter="downloadCode" v-on:change="updateFileName" 
+        <input v-on:keyup.enter="downloadCode" v-on:change="updateFileName"
               ref="fileName" :value="this.$store.state.fileName" placeholder="Enter File name">
       </div>
       <div class="download-modal-button-set flex-space-between">
@@ -123,7 +123,12 @@
   import * as download from 'downloadjs'
   export default {
     name: 'menuBar',
-    components: {language, Settings, Share, LoginButton},
+    components: {
+      language,
+      Settings,
+      Share,
+      LoginButton
+    },
     data() {
       return {
         languages: ['C', 'C++', 'C#', 'Java', 'Python', 'Python3', 'Javascript', 'NodeJs', 'Ruby'],
@@ -133,19 +138,19 @@
       }
     },
     methods: {
-      runCode() {        
+      runCode() {
         this.loading = !this.loading
         this.$store.dispatch('runCode').then((data) => {
           if (!this.$store.state.showInOutBox)
             this.$store.commit('toggleInOutBox')
           this.loading = false
-          if (data.result == 'compile_error') {
+          if (data.result === 'compile_error') {
             this.$notify({
               text: 'Compilation Error',
               type: 'error'
             })
-          } else if (data.result == 'success') {
-            if (data.data.testcases[0].result == 'run-error') {
+          } else if (data.result === 'success') {
+            if (data.data.testcases[0].result === 'run-error') {
               this.$notify({
                 text: 'Runtime Error',
                 type: 'error'
@@ -242,7 +247,7 @@
         this.$modal.hide('shortcuts-modal')
       },
       keyShortCuts(e) {
-        const isMacLike = navigator.platform.match(/(Mac|iPad)/i) ? true : false
+        const isMacLike = navigator.platform.match(/(Mac|iPad)/i)
         const isMetaOrCtrlDown = ((isMacLike && e.metaKey) || e.ctrlKey)
         if(isMetaOrCtrlDown && e.keyCode === 73) {
           e.preventDefault()
@@ -401,7 +406,7 @@
   }
 
   .download-modal-title {
-    height: 60px;    
+    height: 60px;
     font-size: 24px;
     font-weight: 500;
   }
@@ -489,7 +494,7 @@
     height: 60px;
     border-bottom: 2px solid #ccc;
   }
-  
+
   .shortcuts-modal-content {
     font-size: 16px;
     font-weight: 400;
